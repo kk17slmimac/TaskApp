@@ -1,4 +1,4 @@
-//
+    //
 //  AppDelegate.swift
 //  taskapp
 //
@@ -7,13 +7,6 @@
 //
 import UIKit
 import UserNotifications
-
-//【課題要件】
-//TaskクラスにcategoryというStringプロパティを追加してください
-//タスク作成画面でcategoryを入力できるようにしてください
-//一覧画面に文字列検索用の入力欄を設置し、categoryと合致するTaskのみ絞込み表示させてください
-//Auto Layoutを使用して、iPhone SE, iPhone 8, iPhone 8 Plus, iPhone Xの各画面サイズでレイアウトが崩れないようにしてください
-
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate{

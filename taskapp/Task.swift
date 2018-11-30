@@ -7,8 +7,11 @@ class Task: Object {
     //  KVOはプロパティの変更を監視するための仕組み
     
     //TaskクラスにcategoryというStringプロパティを追加してください
-    @objc dynamic var category = ""
+//    @objc dynamic var category = ""
     
+// 【発展】String型のcategoryを、クラスのCategoryへ変更してください。
+    @objc dynamic var category: Category?
+
     // 管理用 ID。プライマリーキー。それぞれのデータを一意に識別するためのID
     @objc dynamic var id = 0
     
