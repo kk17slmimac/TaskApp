@@ -51,17 +51,23 @@
                                 </prototypes>
                             </tableView>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ftT-jz-WPJ">
-                                <rect key="frame" x="47" y="-236" width="320" height="1208"/>
+                                <rect key="frame" x="0.0" y="268" width="414" height="200"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="Mzc-oH-d64"/>
+                                </constraints>
                             </pickerView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eCh-pY-TyU" secondAttribute="trailing" id="2Or-eA-eLb"/>
-                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="-300" id="4Eh-Qw-ny8"/>
+                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5lK-yO-CBG"/>
+                            <constraint firstItem="eCh-pY-TyU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="69Q-yA-kG5"/>
+                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="centerX" secondItem="eCh-pY-TyU" secondAttribute="centerX" id="6js-6K-kX0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="eCh-pY-TyU" secondAttribute="bottom" id="88Z-jN-7dn"/>
-                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8u8-y8-EhT"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ftT-jz-WPJ" secondAttribute="trailing" id="Hp8-gj-B4x"/>
+                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Ps1-kh-FVv"/>
                             <constraint firstItem="eCh-pY-TyU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ZGS-IG-xbM"/>
-                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="c56-mU-lni"/>
+                            <constraint firstItem="ftT-jz-WPJ" firstAttribute="top" secondItem="eCh-pY-TyU" secondAttribute="top" constant="204" id="cJz-Aj-rYx"/>
                             <constraint firstItem="eCh-pY-TyU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="fNl-7N-Ahw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -81,8 +87,8 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="pickerLayout" destination="cJz-Aj-rYx" id="cUI-sL-lQM"/>
                         <outlet property="pickerView" destination="ftT-jz-WPJ" id="70x-rl-F6u"/>
-                        <outlet property="pickerViewConstraint" destination="4Eh-Qw-ny8" id="kez-Gh-Omc"/>
                         <outlet property="search" destination="4uy-2D-1QP" id="x09-ED-v5u"/>
                         <outlet property="tableView" destination="eCh-pY-TyU" id="Nxy-0a-Kxe"/>
                         <segue destination="dJz-GI-mlY" kind="show" identifier="cellSegue" id="KGC-aS-C0j"/>

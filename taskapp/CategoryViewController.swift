@@ -70,16 +70,6 @@ class CategoryViewController: UIViewController {
         //保存ボタンを押したら入力された文字列を消す
         categoryTextField.text = nil
     }
-    
-    
-
-//        //backボタン押下時の処理
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//
-//    }
-    
-    
     func saveAlert() {
         // アラートを作成
         let alert = UIAlertController(
@@ -108,10 +98,5 @@ class CategoryViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    
-    
-    
-    
-    
     
 }

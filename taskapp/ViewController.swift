@@ -6,18 +6,6 @@
 //  Copyright © 2018年 KeiKubota. All rights reserved.
 //
 
-/*
- このクラスで実行できていないこと
- 【pickerView問題】
-実装したい動き：tabBarItemの検索ボタンを押した際にpickerViewを下から登場させる。
- 
- <現状の問題>
-桑原さんから教えてもらったコードの不明点を解決できていない。
- 
- ①TableView上に、初めからPickerViewを配置した際に
-　 制約を指定できないのでNSLayoutで紐付けができない。
- 
- */
 
 import UIKit
 import RealmSwift
@@ -28,7 +16,7 @@ class ViewController: UIViewController,UITableViewDelegate,
     //    ,UISearchBarDelegate
 {
 
-    @IBOutlet weak var pickerViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var pickerLayout: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var search: UIBarButtonItem!
     
@@ -44,14 +32,20 @@ class ViewController: UIViewController,UITableViewDelegate,
     
     
     var selectedCategory:Category!
-    var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id", ascending: true)
+    
+    //Realmインスタンス取得開始
     // Realmインスタンスを取得する
     let realm = try! Realm()
     
+    //データを取得する
+    var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id", ascending: true)
+
     /* DB内のタスクが格納されるリスト。
      日付近い順\順でソート：降順:false
      以降内容をアップデートするとリスト内は自動的に更新される。*/
     var taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+    
+    //--- Realm取得終了ここまで
     
     
     
@@ -64,11 +58,25 @@ class ViewController: UIViewController,UITableViewDelegate,
         //デリゲート
         tableView.delegate = self
         tableView.dataSource = self
+        //【追加】不足していたデリゲート
+        pickerView.delegate = self
+        pickerView.dataSource = self
         
-        self.pickerViewConstraint.constant = +self.view.frame.height
+        //【追加】tableViewの高さ分下に下げる
+        self.pickerLayout.constant = +self.tableView.frame.height
         
+        self.pickerLayout.constant = +self.tableView.frame.height
         
         self.showView = false
+        if categoryArray.count >= 1{
+            self.selectedCategory = categoryArray[0]
+        }
+        
+        //【追加】Viewのありかがわかりやすいように色をつけている
+        pickerView.backgroundColor = UIColor.white
+        
+        
+//        self.showView = false
         
     }
     
@@ -182,9 +190,8 @@ class ViewController: UIViewController,UITableViewDelegate,
         
         // 初期値とpickerviewを押したときにはfalseになる
         if !self.showView {
-            // constantの値は適当に
-            self.pickerViewConstraint.constant = 1000+self.pickerView.frame.height
-            // constantの値は適当に
+            // tableviewの高さ分-pickerViewが最初から持っている高さを引いた分上に引き上げて表示する
+            self.pickerLayout.constant = +self.tableView.frame.height-self.pickerView.frame.height
             self.showView = true
             
             // アニメーションの設定。この処理を削ると下からスッとでてこない
@@ -193,67 +200,19 @@ class ViewController: UIViewController,UITableViewDelegate,
                 // 普通のviewとかも指定できる
                 self.view.layoutIfNeeded()
             })
+        }else{
+        //欄外に引っ込める
+            self.pickerLayout.constant = self.view.frame.height
+            self.showView = false
+            //アニメーションの設定
+            UIView.animate(withDuration: 0.3, animations: { () -> Void in
+                // レイアウト更新の時にアニメーションをかける、といういみ。対象はこれだけではなく
+                // 普通のviewとかも指定できる
+                self.view.layoutIfNeeded()
+            })
         }
-        
-        
-        
-//        //pickerViewが下から出てきて選択されたCategoryで絞り込めるようにする。
-//        pickerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: pickerView.bounds.size.height)
-//        pickerView.delegate   = self
-//        pickerView.dataSource = self
-//
-//        // 1.ここでpickerViewの大きさのuiviewを作成する（この時点ではまだ大きさと色を設定しているだけのuiview)
-//        let vi = UIView(frame: pickerView.bounds)
-//        vi.backgroundColor = UIColor.white
-//        // 2.uiviewの上にpikerviewを乗っける
-//        vi.addSubview(pickerView)
-//
-        
-        // ここがポイント。1で作ったUIViewをtextFieldのinputView（本来はキーボードが表示されるはずのview）にのせる
-        // そうすると、pikerが表示されるようになる
-//        textField.inputView = vi
-        
-        
-        
-        //pickerViewがいくつも出てきたり、予期せぬ動きを防ぐために2回連続で押せない様にする。
-//        self.search.isEnabled = false
-        
-//        let toolBar = UIToolbar()
-//        toolBar.barStyle = UIBarStyle.default
-//        toolBar.isTranslucent = true
-//        toolBar.tintColor = UIColor.black
-//        // pikerを終わらせる時のぼたん　donePressedを呼んでる
-//        let doneButton   = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.done, target: self, action: #selector(ViewController.donePressed))
-//
-//        // キャンセルボタン cancelPressedを呼んでる
-//        let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.cancelPressed))
-//        // スペースを押したとき、のイベントは今回はないので何も設定しない
-////        let spaceButton  = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-//        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
-//
-//        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
-//        toolBar.isUserInteractionEnabled = true
-//        toolBar.sizeToFit()
-        // pikerview（本来はキーボードが表示されるはずの場所だが、pikerviewで上書きしているので）にツールバーを設定する
-//        textField.inputAccessoryView = toolBar
-        
-        
-        
        }
-    // Done
-//    @objc func donePressed() {
-//        view.endEditing(true)
-//        self.search.isEnabled = true
-//
-//    }
-//    
-//    // Cancel
-//    @objc func cancelPressed() {
-////        textField.text = ""
-//        view.endEditing(true)
-//        self.search.isEnabled = true
-//    }
-    
+
     
     // UIPickerViewの列の数
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
