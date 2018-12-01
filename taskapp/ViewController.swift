@@ -6,7 +6,6 @@
 //  Copyright © 2018年 KeiKubota. All rights reserved.
 //
 
-
 import UIKit
 import RealmSwift
 import UserNotifications
@@ -15,15 +14,14 @@ class ViewController: UIViewController,UITableViewDelegate,
     UITableViewDataSource,UIPickerViewDelegate,UIPickerViewDataSource
     //    ,UISearchBarDelegate
 {
-
+    
     @IBOutlet weak var pickerLayout: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var search: UIBarButtonItem!
     
     //ピッカービュー
-//    let pickerView = UIPickerView()
-//    @IBOutlet weak var textField: UITextField!
-
+    //    let pickerView = UIPickerView()
+    //    @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var pickerView: UIPickerView!
     
     // pickerViewが表示されているかどうか判定
@@ -39,7 +37,7 @@ class ViewController: UIViewController,UITableViewDelegate,
     
     //データを取得する
     var categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id", ascending: true)
-
+    
     /* DB内のタスクが格納されるリスト。
      日付近い順\順でソート：降順:false
      以降内容をアップデートするとリスト内は自動的に更新される。*/
@@ -76,7 +74,7 @@ class ViewController: UIViewController,UITableViewDelegate,
         pickerView.backgroundColor = UIColor.white
         
         
-//        self.showView = false
+        //        self.showView = false
         
     }
     
@@ -180,7 +178,9 @@ class ViewController: UIViewController,UITableViewDelegate,
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+        categoryArray = try! Realm().objects(Category.self).sorted(byKeyPath: "id", ascending: true)
         tableView.reloadData()
+        pickerView.reloadAllComponents()
     }
     
     
@@ -201,18 +201,21 @@ class ViewController: UIViewController,UITableViewDelegate,
                 self.view.layoutIfNeeded()
             })
         }else{
-        //欄外に引っ込める
+            //欄外に引っ込める
             self.pickerLayout.constant = self.view.frame.height
             self.showView = false
             //アニメーションの設定
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 // レイアウト更新の時にアニメーションをかける、といういみ。対象はこれだけではなく
                 // 普通のviewとかも指定できる
+                self.taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+                self.tableView.reloadData()
+
                 self.view.layoutIfNeeded()
             })
         }
-       }
-
+    }
+    
     
     // UIPickerViewの列の数
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -267,8 +270,5 @@ class ViewController: UIViewController,UITableViewDelegate,
         }
         tableView.reloadData()
     }
-   
+    
 }//endClass
-
-
-

@@ -156,8 +156,6 @@ class InputViewController: UIViewController , UIPickerViewDelegate , UIPickerVie
         print("============戻ってきた時===============")
         print(categoryArray)
         
-
-        
     }
     
 }//end Class
