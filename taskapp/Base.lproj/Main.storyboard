@@ -79,6 +79,11 @@
                                     <segue destination="dJz-GI-mlY" kind="show" id="S6J-Ef-ggn"/>
                                 </connections>
                             </barButtonItem>
+                            <barButtonItem systemItem="stop" id="eCJ-pJ-lT3">
+                                <connections>
+                                    <action selector="cancelButton:" destination="BYZ-38-t0r" id="nff-Cg-QjH"/>
+                                </connections>
+                            </barButtonItem>
                             <barButtonItem systemItem="search" id="4uy-2D-1QP">
                                 <connections>
                                     <action selector="searchButton:" destination="BYZ-38-t0r" id="QSD-vJ-G3P"/>
@@ -87,6 +92,7 @@
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancel" destination="eCJ-pJ-lT3" id="27v-we-R5l"/>
                         <outlet property="pickerLayout" destination="cJz-Aj-rYx" id="cUI-sL-lQM"/>
                         <outlet property="pickerView" destination="ftT-jz-WPJ" id="70x-rl-F6u"/>
                         <outlet property="search" destination="4uy-2D-1QP" id="x09-ED-v5u"/>

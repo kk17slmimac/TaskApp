@@ -18,6 +18,9 @@ class ViewController: UIViewController,UITableViewDelegate,
     @IBOutlet weak var pickerLayout: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var search: UIBarButtonItem!
+    @IBOutlet weak var cancel: UIBarButtonItem!
+    
+    
     
     //ピッカービュー
     //    let pickerView = UIPickerView()
@@ -194,6 +197,9 @@ class ViewController: UIViewController,UITableViewDelegate,
             self.pickerLayout.constant = +self.tableView.frame.height-self.pickerView.frame.height
             self.showView = true
             
+            //tableViewが絞り込み時も全部見れる様にする。
+            
+            
             // アニメーションの設定。この処理を削ると下からスッとでてこない
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 // レイアウト更新の時にアニメーションをかける、といういみ。対象はこれだけではなく
@@ -208,10 +214,9 @@ class ViewController: UIViewController,UITableViewDelegate,
             UIView.animate(withDuration: 0.3, animations: { () -> Void in
                 // レイアウト更新の時にアニメーションをかける、といういみ。対象はこれだけではなく
                 // 普通のviewとかも指定できる
-                self.taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
-                self.tableView.reloadData()
-
                 self.view.layoutIfNeeded()
+                self.cancel.isEnabled = true
+                
             })
         }
     }
@@ -270,5 +275,19 @@ class ViewController: UIViewController,UITableViewDelegate,
         }
         tableView.reloadData()
     }
+    
+    
+//    【追加】
+    @IBAction func cancelButton(_ sender: Any) {
+        self.taskArray = try! Realm().objects(Task.self).sorted(byKeyPath: "date", ascending: false)
+        self.tableView.reloadData()
+        
+        cancel.isEnabled = false
+        
+    }
+    
+    
+    
+    
     
 }//endClass
